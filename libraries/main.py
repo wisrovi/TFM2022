@@ -119,18 +119,19 @@ def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
-    all_data, all_label = cortar.read_data(limit=2) # None
+    all_data, all_label = cortar.read_data(limit=None) # None
     print(len(all_data), len(all_label))
     print(len(all_data[0]), len(all_label[0]))
     print(all_data[0][0], all_label[0])
 
-    with open('data.csv', 'w') as f:
-        write = csv.writer(f)
-        write.writerow(all_data)
+    for i in range(len(all_label)):
+        with open('data_partial/data_' + str(i) +'.csv', 'w') as f:
+            write = csv.writer(f)
+            write.writerow(all_data[i])
 
-    with open('label.csv', 'w') as f:
-        write = csv.writer(f)
-        write.writerow(all_label)
+        with open('data_partial/label_' + str(i) +'.csv', 'w') as f:
+            write = csv.writer(f)
+            write.writerow(all_label[i])
 
 
 if __name__ == '__main__':
