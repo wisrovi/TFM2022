@@ -127,3 +127,17 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+libraries/data_partial/data.csv
+*.xml
+*.xml
+*.xml
+*.npz
+*.npz
+*.npz
+data_partial/data_train.npz
+data_partial/data_test.npz
+*.wav
+*.wav
+*.xml
+data_partial/data_train.npz
+data_partial/data_test.npz
