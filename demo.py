@@ -47,9 +47,123 @@ print(X_train.shape, y_train.shape)
 from tensorflow.keras import models
 from tensorflow.keras import layers
 
+from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.layers import Dense, Dropout, LayerNormalization, LeakyReLU, Conv1D, Conv2D, Flatten, MaxPooling2D, Input
+from tensorflow.keras.layers import BatchNormalization, InputLayer, Reshape, Activation, GlobalAveragePooling1D
+from tensorflow.keras.layers import AveragePooling2D, AveragePooling1D, UpSampling1D, UpSampling2D, MaxPooling1D
+def modelo_experimental(cantidad_entradas):
+    #  https://github.com/wisrovi/MELI_test/blob/main/4_5_Modelado_Evaluacion_RNA.ipynb
+    inputs = Input(shape=(cantidad_entradas,), name="Entradas")
+
+    model = Sequential()
+    model.add(inputs)
+
+    model.add(Dense(16 * 2 * 2, activation="relu"))
+    model.add(Reshape((2, 2, 16)))
+    model.add(BatchNormalization(momentum=0.8))
+    model.add(UpSampling2D())
+
+    model.add(Conv2D(64, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(Conv2D(64, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(BatchNormalization(momentum=0.8))
+    model.add(UpSampling2D())
+
+    model.add(Conv2D(128, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(Conv2D(128, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(MaxPooling2D((2, 2), padding='same'))
+    model.add(BatchNormalization(momentum=0.8))
+
+    model.add(Conv2D(64, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(Conv2D(64, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(BatchNormalization(momentum=0.8))
+    model.add(UpSampling2D())
+
+    model.add(Conv2D(32, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(Conv2D(16, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(MaxPooling2D((2, 2), padding='same'))
+    model.add(BatchNormalization(momentum=0.8))
+
+    model.add(Conv2D(8, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(Conv2D(8, kernel_size=(3, 3), padding="same", activation="relu"))
+    model.add(UpSampling2D())
+
+    model.add(AveragePooling2D(pool_size=(2, 2), strides=(1, 1), padding='valid'))
+
+    model.add(Flatten())
+
+    model.add(Dropout(0.25))  # apagar un 25% de manera aleatoria para reducir la cantidad de parametros
+
+    model.add(Dense(64, activation="relu"))
+    model.add(Dense(32, activation="relu"))
+    model.add(Dense(16, activation="relu"))
+    model.add(Dense(8, activation="relu"))
+
+    model.add(Dropout(0.5))
+
+    model.add(Dense(cantidad_salidas, activation="sigmoid", name='output_layer'))
+
+    return model
+
+
+def modelo_simple():
+    inputs = Input(shape=(cantidad_entradas,), name="Entradas")
+    model = Sequential(name="Redsimple")  # los nombres van sin espacios
+    model.add(inputs)
+    model.add(Dense(4 * 4, activation="relu"))
+    model.add(Reshape((4, 4)))
+    model.add(Dense(32, activation="relu"))
+
+    model.add(UpSampling1D(size=3))
+    model.add(Conv1D(12, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(12, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(32, kernel_size=3, padding="same", activation='relu'))
+    model.add(MaxPooling1D(pool_size=3, strides=1, padding='valid'))
+
+    model.add(Conv1D(24, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(24, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(32, kernel_size=3, padding="same", activation='relu'))
+    model.add(MaxPooling1D(pool_size=2, strides=1, padding='valid'))
+
+    model.add(Conv1D(32, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(32, kernel_size=3, padding="same", activation='relu'))
+    model.add(MaxPooling1D(pool_size=3, strides=1, padding='valid'))
+
+    model.add(Conv1D(24, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(24, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(16, kernel_size=3, padding="same", activation='relu'))
+    model.add(MaxPooling1D(pool_size=3, strides=1, padding='valid'))
+
+    model.add(Conv1D(16, kernel_size=3, padding="same", activation='relu'))
+    model.add(Conv1D(8, kernel_size=3, padding="same", activation='relu'))
+    model.add(MaxPooling1D(pool_size=2, strides=1, padding='valid'))
+
+    model.add(Dense(24, activation="relu"))
+    model.add(Dense(16, activation="relu"))
+    model.add(MaxPooling1D(pool_size=2, strides=1, padding='valid'))
+
+    model.add(Dropout(0.5))
+
+    model.add(Dense(16, activation="relu"))
+    model.add(Dense(8, activation="relu"))
+
+    # model.add( AveragePooling1D(pool_size=2, strides=1, padding='valid') )
+
+    model.add(GlobalAveragePooling1D())
+
+    model.add(Flatten())
+
+    model.add(Dense(8, activation="relu"))
+    model.add(Dense(3, activation="relu"))
+
+    model.add(Dense(cantidad_salidas, activation="sigmoid", name='output_layer'))
+
+    return model
+
+
 model = models.Sequential()
-model.add(layers.Dense(64, activation='relu', input_shape=(X_train.shape[1],)))
+model.add(layers.Dense(32, activation='relu', input_shape=(X_train.shape[1],)))
 model.add(layers.Dense(128, activation='relu'))
+model.add(layers.Dense(256, activation='relu'))
 model.add(layers.Dense(256, activation='relu'))
 model.add(layers.Dense(128, activation='relu'))
 model.add(layers.Dense(64, activation='relu'))
