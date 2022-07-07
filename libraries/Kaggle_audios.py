@@ -50,7 +50,7 @@ class Kaggle_audios(Corte_audio):
         muestras_wav[-1] = np.array(muestras_wav[-1].tolist() + c)
         return muestras_wav
 
-    def read_data(self, limit=None):
+    def read_data(self, limit=None, show_info:bool = True):
         all_data = list()
         all_label = list()
         rate = None
@@ -63,11 +63,14 @@ class Kaggle_audios(Corte_audio):
                 limit = partial
             partial = len(self.file_wav[:limit])
 
-        print("*" * 20, end="")
+        if show_info:
+            print("\t\t", "*" * 20, end="")
         for i in range(partial):
-            print("*" * 10)
+            if show_info:
+                print("\t\t", "*"  * 10)
             muestras_wav, instrumentos, rate, resource_read = self.leer_data_label(i)
-            print("Reading: id:", f"{i}/{partial}", " - file:", resource_read, " - len before:", len(all_data))
+            if show_info:
+                print("\t\tReading: id:", f"{i}/{partial}", " - file:", resource_read, " - len before:", len(all_data))
             # print(resource_read + ".wav", len(muestras_wav), type(muestras_wav))
             # print(resource_read + ".csv", len(instrumentos), type(instrumentos))
 
@@ -77,6 +80,7 @@ class Kaggle_audios(Corte_audio):
         all_label = np.array(all_label)
         all_data = np.array(all_data)
 
-        print("*"*30)
+        if show_info:
+            print("*"*30)
 
         return all_data, all_label, rate

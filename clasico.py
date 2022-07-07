@@ -47,4 +47,4 @@ print("ACC", metrics.accuracy_score(y_test, y_final))
 print("PREC", metrics.precision_score(y_test, y_final, average='micro'))
 
 
-pickle.dump(algoritmo_5, open('randomforest.pkl','wb'))
+pickle.dump(algoritmo_5, open('models_backup/randomforest.pkl', 'wb'))

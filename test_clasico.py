@@ -15,7 +15,7 @@ test = pd.read_csv('test.csv')
 X_test, y_test = prepare_data_tensorflow(test)
 
 
-randomforest = pickle.load(open('randomforest.pkl','rb'))
+randomforest = pickle.load(open('models_backup/randomforest.pkl', 'rb'))
 y_final = randomforest.predict(X_test)
 
 
