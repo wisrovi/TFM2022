@@ -73,8 +73,7 @@ modelo_pca = pca_pipe.named_steps['pca']
 # Se combierte el array a dataframe para añadir nombres a los ejes.
 ae = pd.DataFrame(
     data    = modelo_pca.components_,
-    columns = df.columns,
-    #index   = ['PC1', 'PC2', 'PC3', 'PC4']
+    columns = df.columns
 )
 
 print(ae.head())

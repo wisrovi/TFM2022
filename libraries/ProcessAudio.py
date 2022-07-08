@@ -68,9 +68,9 @@ class ProcessAudio(object):
         self.mfcc = librosa.feature.mfcc(y=self.data, sr=self.sr)
         return self.mfcc
 
-    def get_all(self, i:int):
+    def get_all(self, i:int) -> list:
         if self.data is None:
-            return None
+            return []
 
         self.get_croma()
         self.get_rmse()

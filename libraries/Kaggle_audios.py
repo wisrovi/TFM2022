@@ -18,11 +18,13 @@ class Kaggle_audios(Corte_audio):
             group_to_use = "train"
 
         base_path = os.getcwd().split("musicnet")[0] + "musicnet"
+        base_path = ""  # usar para cuando se trabaja desde jupyter
         self.path_wav = base_path + self.BASE_FOLDER + group_to_use + self.path_wav
         self.path_csv = base_path + self.BASE_FOLDER + group_to_use + self.path_csv
 
+        print(self.path_wav)
+        print(self.path_csv )
         self.file_wav = os.listdir(self.path_wav)
-        # print(len(self.file_wav))
 
     def leer_path_data_label(self, id: int = 0):
         audio_usar = self.path_wav + self.file_wav[id]
@@ -76,6 +78,13 @@ class Kaggle_audios(Corte_audio):
 
             all_data += self.__correccion_data(muestras_wav)
             all_label += self.__correcion_instrumentos(instrumentos)
+
+            try:
+                if i % 100 == 0:
+                    print("\n\t", end="")
+                print(".", end=" ")
+            except:
+                print()
 
         all_label = np.array(all_label)
         all_data = np.array(all_data)
