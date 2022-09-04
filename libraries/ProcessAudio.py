@@ -39,6 +39,7 @@ class ProcessAudio(object):
         return self.rmse
 
     def get_centroide_espectral(self):
+        """centroide espectral"""
         if self.data is None:
             return None
         self.spec_cent = librosa.feature.spectral_centroid(y=self.data, sr=self.sr)
@@ -51,6 +52,7 @@ class ProcessAudio(object):
         return self.spec_bw
 
     def get_rolloff(self):
+        """tambien conocido como reduccion espectral"""
         if self.data is None:
             return None
         self.rolloff = librosa.feature.spectral_rolloff(y=self.data, sr=self.sr)
