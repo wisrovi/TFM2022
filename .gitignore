@@ -144,3 +144,4 @@ data_partial/data_test.npz
 models_backup/randomforest.pkl
 models_backup/randomforest.pkl
 *.pkl
+.~lock.TFM-libro.docx#
