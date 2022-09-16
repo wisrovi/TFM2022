@@ -1,3 +1,4 @@
+import threading
 from functools import wraps
 from time import time
 
@@ -12,3 +13,16 @@ def count_elapsed_time(f):
         return salida
 
     return cronometro
+
+
+def execute_in_thread_timer(seconds):
+    def _execute_in_thread_timer(f):
+        def wrapper(*args, **kwargs):
+            thread_f = threading.Timer(seconds, f)
+            thread_f.start()
+
+            return thread_f
+
+        return wrapper
+
+    return _execute_in_thread_timer
