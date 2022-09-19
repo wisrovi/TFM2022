@@ -3,10 +3,11 @@ import librosa.display
 import librosa
 import numpy as np
 
+
 class ProcessAudio(object):
     data = None
 
-    def __init__(self, sr:int = 44100):
+    def __init__(self, sr: int = 44100):
         self.mfcc = None
         self.zcr = None
         self.rolloff = None
@@ -24,7 +25,7 @@ class ProcessAudio(object):
             return None
         # display waveform
         plt.figure(figsize=(14, 5))
-        librosa.display.waveplot(self.data , sr=self.sr)
+        librosa.display.waveplot(self.data, sr=self.sr)
 
     def get_croma(self):
         if self.data is None:
@@ -70,7 +71,7 @@ class ProcessAudio(object):
         self.mfcc = librosa.feature.mfcc(y=self.data, sr=self.sr)
         return self.mfcc
 
-    def get_all(self, i:int) -> list:
+    def get_all(self, i: int) -> list:
         if self.data is None:
             return []
 

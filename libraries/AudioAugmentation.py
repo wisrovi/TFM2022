@@ -202,7 +202,7 @@ class Audio_K(AudioAugmentation):
 
 
 if __name__ == "__main__":
-    data_audio = "data/cat.wav"
+    data_audio = "data/1759.wav"
     (data, rate) = librosa.core.load(data_audio)
     data_audio = (data, rate, "cat")
     label_audio = [1, 1]
