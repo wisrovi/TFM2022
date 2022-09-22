@@ -1,6 +1,8 @@
 # https://medium.com/@alibugra/audio-data-augmentation-f26d716eee66
 # https://medium.com/@makcedward/data-augmentation-for-audio-76912b01fdf6
-import self
+# https://github.com/makcedward/nlpaug/blob/master/example/audio_augmenter.ipynb
+
+
 from nlpaug.util import AudioVisualizer
 
 from libraries.ProcessAudio import ProcessAudio
