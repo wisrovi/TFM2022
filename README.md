@@ -20,8 +20,6 @@ Este proyecto está bajo la Licencia (MIT) - mira el archivo [LICENSE.md](LICENS
 
 ## Autores ✒️
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
-
 * **William Rodriguez** - *Trabajo Inicial* - [wisrovi](https://github.com/wisrovi)
 
 
