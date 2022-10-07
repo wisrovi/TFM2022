@@ -3,10 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
 - family-names: "WISROVI"
   given-names: "William Steve Rodriguez Villamizar"
-- family-names: "towardsdatascience"
-  given-names: "Amber Teng"
-title: "covert letter generator"
-version: 1.0.1
-doi: 10.5281/zenodo.1234
-date-released: 2022-09-23
-url: "https://github.com/wisrovi/covert_letter_generator"
+title: "Clasificador de instrumentos musicales en pista de audio"
+version: 0.22.0
+date-released: 2022-10-07
+url: "https://github.com/wisrovi/TFM2022"

@@ -19,14 +19,14 @@ html = """
 <!doctype html>
 <form method="POST" enctype="multipart/form-data">
   
-  <label for="fname">Elija su imagen a evaluar:</label>
+  <label for="fname">Elija su audio a evaluar:</label>
   <input type="file" id="fname" name="file1"><br><br>
   
   <input type="submit" value="Evaluar con RNA">
 </form> 
 """
 
-nombre_guardar_archivo = "recibido.jpg"
+nombre_guardar_archivo = "recibido.wav"
 
 app = Flask(__name__)
 
