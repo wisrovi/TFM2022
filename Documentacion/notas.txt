@@ -1,0 +1,7 @@
+audios=320
+rate=44100
+split_seconds=2
+data_train_shape={registros:60851, entradas:88200, salidas:11}
+data_train_shape_extraccion_caracteristicas_audio={registros:60851, entradas:26, salidas:11}
+data_train_shape_extraccion_caracteristicas_audio_pca={registros:60851, entradas:15, salidas:11}
+

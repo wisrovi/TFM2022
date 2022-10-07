@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+  api_aws:
+    container_name: aws_dia
+    image: aws:v1
+    ports:
+      - 52000:2022

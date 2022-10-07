@@ -17,7 +17,9 @@ class ProcessAudio(object):
         self.chroma_stft = None
         self.sr = sr
 
-    def set_data(self, data):
+    def set_data(self, data_audio):
+        rate: int = 44100
+        (data, rate) = librosa.core.load(data_audio)
         self.data = data
 
     def display_waveform(self):
@@ -71,7 +73,7 @@ class ProcessAudio(object):
         self.mfcc = librosa.feature.mfcc(y=self.data, sr=self.sr)
         return self.mfcc
 
-    def get_all(self, i: int) -> list:
+    def get_all(self) -> list:
         if self.data is None:
             return []
 
@@ -83,7 +85,7 @@ class ProcessAudio(object):
         self.get_cruce_por_cero()
         self.get_mfcc()
 
-        data_compresed = f'train{i} {np.mean(self.chroma_stft)} {np.mean(self.rmse)} {np.mean(self.spec_cent)} {np.mean(self.spec_bw)} {np.mean(self.rolloff)} {np.mean(self.zcr)}'
+        data_compresed = f'{np.mean(self.chroma_stft)} {np.mean(self.rmse)} {np.mean(self.spec_cent)} {np.mean(self.spec_bw)} {np.mean(self.rolloff)} {np.mean(self.zcr)}'
         for e in self.mfcc:
             data_compresed += f' {np.mean(e)}'
 
