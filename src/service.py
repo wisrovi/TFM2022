@@ -1,7 +1,7 @@
 from flask import Flask, app, jsonify, request, redirect, make_response
 from leer_modelo import predecir
 
-ALLOWED = ['png','jpg', 'jpeg', 'gif']
+ALLOWED = ['wav']
 def evaluar_extension_archivo(filename):
     tiene_punto = "." in filename
     if tiene_punto:
@@ -44,8 +44,13 @@ def recibir_archivo():
             nombre_imagen_recibida.save(nombre_guardar_archivo)
             
             # evaluacion por el modelo de RNA
-            rta = predecir(nombre_guardar_archivo)
-            return "La imagen recibida es un " + rta
+            (predic, _, vector), tiempo = predecir(nombre_guardar_archivo)
+            instrumentos = ", ".join(predic)
+            rta = {
+                "instruments": instrumentos,
+                "time_predic": tiempo
+            }
+            return rta
     
     return html
 
