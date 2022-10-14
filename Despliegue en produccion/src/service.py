@@ -22,7 +22,7 @@ html = """
   <label for="fname">Elija su audio a evaluar:</label>
   <input type="file" id="fname" name="file1"><br><br>
   
-  <input type="submit" value="Evaluar con RNA">
+  <input type="submit" value="Evaluar con Random Forest">
 </form> 
 """
 
@@ -44,10 +44,13 @@ def recibir_archivo():
             nombre_imagen_recibida.save(nombre_guardar_archivo)
             
             # evaluacion por el modelo de RNA
-            (predic, _, vector), tiempo = predecir(nombre_guardar_archivo)
-            instrumentos = ", ".join(predic)
+            (predic, model_predic, _, vector, y_all), tiempo = predecir(nombre_guardar_archivo)
+            #instrumentos = ", ".join(predic)
+            #instrumentos = "[" + instrumentos + "]" 
             rta = {
-                "instruments": instrumentos,
+                "instruments_predict": predic,
+                "model_prediction": model_predic,
+                "All_instruments": y_all,
                 "time_predic": tiempo
             }
             return rta

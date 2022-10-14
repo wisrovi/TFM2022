@@ -1,13 +1,13 @@
 import pickle
 import pandas as pd
-from ProcessAudio import ProcessAudio
+from ProcessAudio.Features import Features
 from functools import wraps
 from time import time
 
 
 instrumentos = {
         1: "piano",
-        7: "Violín",
+        7: "Violin",
         41: "Viola",
         42: "Violonchelo",
         43: "Clarinete",
@@ -46,9 +46,9 @@ def preparar_datos_para_modelo(datos):
 
 
 def preparar_dato(file_path):
-    processAudio = ProcessAudio()
+    processAudio = Features()
     processAudio.set_data(file_path)
-    DATA = processAudio.get_all()  # Extrayendo caracteristicas audios, salen 26 caracteristicas
+    DATA = processAudio.build_all()  # Extrayendo caracteristicas audios, salen 26 caracteristicas
     return DATA
 
 
@@ -69,14 +69,17 @@ def predecir(file_path):
     #DATA_REDU = DATA_REDU[0] # saco el array de dentro del array
     y_final = model.predict(DATA_REDU)[0]
     predicciones = model.predict_proba(DATA_REDU)
-    y_final = decode_prediction(y_final)
-    return (y_final, predicciones, DATA_REDU)
+    y_final_h = decode_prediction(y_final)
+    y_final = [int(pred) for pred in y_final]
+    y_final = [True if pred == 1 else False for pred in y_final]    
+    return (y_final_h, y_final, predicciones, DATA_REDU, y_all)
 
 
 normalizador_pca = pickle.load(open('modelo/normalizador_pca_1seg.pkl', 'rb'))
 model = pickle.load(open("modelo/randomforest.pkl", 'rb'))
 TODOS_LABEL = read_data_label()
 print("Todo listo para predecir a las salidas:", TODOS_LABEL)
+y_all = decode_prediction([1 for _ in range(len(instrumentos))])
 
     
 if __name__=="__main__":
