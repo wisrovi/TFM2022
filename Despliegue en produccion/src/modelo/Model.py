@@ -30,11 +30,6 @@ class Model:
 
     @count_elapsed_time
     def predict(self, data):
-        if not self.data_good:
-            if len(data) == 26:
-                data = [data]
-            data = self.preparar_datos_para_modelo(data)
-
         y_final = model.predict(data)[0]
         y_final_h = util.decode_prediction(y_final)
         y_final = [int(pred) for pred in y_final]
