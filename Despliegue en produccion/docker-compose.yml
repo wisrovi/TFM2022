@@ -8,3 +8,32 @@ services:
     container_name: TFM2022
     ports:
       - 52000:2022
+
+  #audio_classifier:
+  #  build: .
+    #image: wisrovi/tfm_2022:v1.1
+  #  command: python3 /app/service_model.py
+  #  volumes:
+  #    - ./src:/app
+  #  container_name: audio_classifier
+
+  redis:
+    image: redislabs/redismod
+    ports:
+      - "6379:6379"
+    environment:
+      - SO=docker
+    volumes:
+      - ./user_data/cache_redis:/data
+    command: --dir /data --loadmodule /usr/lib/redis/modules/redistimeseries.so
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=root
+      - HTTP_PASSWORD=qwerty
+    ports:
+      - 8081:8081
+    depends_on:
+      - redis
