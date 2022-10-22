@@ -9,13 +9,13 @@ services:
     ports:
       - 52000:2022
 
-  #audio_classifier:
-  #  build: .
-    #image: wisrovi/tfm_2022:v1.1
-  #  command: python3 /app/service_model.py
-  #  volumes:
-  #    - ./src:/app
-  #  container_name: audio_classifier
+  audio_classifier:
+    build: .
+    command: python3 /app/service_model.py
+    volumes:
+      - ./log:/log
+    #  - ./src:/app
+    container_name: audio_classifier
 
   redis:
     image: redislabs/redismod

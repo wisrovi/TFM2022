@@ -2,13 +2,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
-        <title>Train model</title>
+        <title>Audio clasification</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
+        <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
     </head>
     <body>
+        <header>
+            <p>Este es el resultado de entrenar un modelo de RandomForest para clasificacion de instrumentos musicales (usando el dataset de musinet) en un audio de 2 segundos para el TFM en la VIU en el año 2022.</p>
+        </header>
+
         <div class="container">
             <div class="row align-items-center vh-100">
                 <div class="col-6 mx-auto">
@@ -43,34 +48,107 @@
             </div>
         </div>
 
+        <!--
+        <div class="box transform contendor">                
+            <iframe src="http://3.230.72.2:1037/" 
+                title="description" 
+                width="0px" height="0px"></iframe>             
+        </div>
 
-        <!--<script src="sweetalert2.all.min.js"></script>
-                        <script>
-                            function showTime(msg) {
-                                let timerInterval
-                                Swal.fire({
-                                    title: 'Información!',
-                                    html: msg,
-                                    timer: 2000,
-                                    timerProgressBar: true,
-                                    didOpen: () => {
-                                        Swal.showLoading()
-                                        const b = Swal.getHtmlContainer().querySelector('b')
-                                        timerInterval = setInterval(() => {
-                                            b.textContent = Swal.getTimerLeft()
-                                        }, 100)
-                                    },
-                                    willClose: () => {
-                                        clearInterval(timerInterval)
-                                    }
-                                }).then((result) => {
-                                    /* Read more about handling dismissals below */
-                                    if (result.dismiss === Swal.DismissReason.timer) {
-                                        console.log('I was closed by the timer')
-                                    }
-                                });
-                            }
-                        </script>-->
+        <div class="btn-wsp">            
+            <input type="button" id="button_float" class="btn btn-wsp" onclick="click()">  
+                <i class="fa-sharp fa-solid fa-headset"></i>
+            </input>            
+        </div>
+        -->
+
+
+        <footer> 
+            <p>Autor: William Rodriguez
+            </p>
+        </footer>
+
+        
+
+
+
+        <script type="text/javascript">
+            function click() {
+                $(".transform").toggleClass("transform-active");
+            };
+        </script>
+        <style>
+            .box {
+                background-color: transparent;
+                height: 0px;
+                width: 0px;
+            }
+
+            .transform {
+                transition: all 2s ease;
+            }
+
+            .transform-active {
+                background-color: transparent;
+                height: 450px;
+                width: 300px;
+                border: 3px solid #1e32eb;
+            }
+
+            .contendor {
+                position: fixed;
+                bottom: 120px;
+                right: 30px;
+                width: 300px;
+            }
+
+            .btn-wsp {
+                position: fixed;
+                width: 55px;
+                height: 55px;
+                line-height: 55px;
+                bottom: 60px;
+                right: 40px;
+                background-color: #1e32eb;
+                color: rgb(228, 214, 214);
+                border-radius: 50%;
+                text-align: center;
+                font-size: 30px;
+                box-shadow: opx 1px 10px rgba(0, 0, 0, 0.3);
+                z-index: 100;
+            }
+
+            .btn-wsp:hover {
+                text-decoration: none;
+                color: #0d9df0;
+                background: rgb(219, 12, 12);
+            }
+        </style>
+
+        <style>
+            
+        </style>
+
+        <style>
+            footer {
+                margin: auto;
+                height: 30px;
+                background-color: #1e2127;
+                color: #ffffff;
+                text-align:center; 
+            }
+            
+            header {
+                margin: auto;
+                height: 30px;
+                background-color: #1e2127;
+                color: #ffffff;
+                text-align:center; 
+            }​
+            
+        </style>
+        
+
         <!-- Option 1: Bootstrap Bundle with Popper -->
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
