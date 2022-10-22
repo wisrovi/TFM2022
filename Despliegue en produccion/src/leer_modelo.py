@@ -52,14 +52,14 @@ def decode_prediction(prediction):
 @count_elapsed_time
 def predecir(file_path):
     DATA = preparar_dato(file_path)  # Extrayendo caracteristicas audios, salen 26 caracteristicas
-    DATA_REDU = preparar_datos_para_modelo([DATA])  # estandarizo y reduzco dimensiones con PCA
+    DATA_REDU = preparar_datos_para_modelo([DATA, DATA])  # estandarizo y reduzco dimensiones con PCA
     # DATA_REDU = DATA_REDU[0] # saco el array de dentro del array
     y_final = model.predict(DATA_REDU)[0]
     predicciones = model.predict_proba(DATA_REDU)
     y_final_h = decode_prediction(y_final)
     y_final = [int(pred) for pred in y_final]
     y_final = [True if pred == 1 else False for pred in y_final]
-    return (y_final_h, y_final, predicciones, DATA_REDU, y_all)
+    return y_final_h, y_final, predicciones, DATA_REDU, y_all
 
 
 normalizador_pca = pickle.load(open('modelo/normalizador_pca_1seg.pkl', 'rb'))
@@ -70,8 +70,8 @@ y_all = decode_prediction([1 for _ in range(len(instrumentos))])
 
 if __name__ == "__main__":
     print("Probando modelo")
-    (predic, _, vector), tiempo = predecir("demo/dat_92.wav")
+    (y_final_h, y_final, predicciones, DATA_REDU, y_all), tiempo = predecir("demo/dat_91.wav")
 
-    print(predic)
-    print(vector)
+    print(y_final_h)
+    print(y_final)
     print(tiempo)

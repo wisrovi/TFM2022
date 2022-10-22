@@ -24,9 +24,6 @@ model = Model()
 util = Util()
 
 
-
-
-
 def classify_process():
     while True:
         queue = db.lrange(settings.IMAGE_QUEUE, 0,
