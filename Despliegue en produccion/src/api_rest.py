@@ -1,5 +1,4 @@
 import json
-
 import redis
 from flask import Flask, app, jsonify, request, redirect, make_response, render_template
 import uuid
@@ -9,8 +8,10 @@ from libraries.Util_received_file import evaluar_extension_archivo
 from config import settings
 import time
 
+
+
 util = Util()
-#model = Model()
+
 
 nombres_parametros = {
     "imagen": "file1"
@@ -27,6 +28,8 @@ db = redis.StrictRedis(host=settings.REDIS_HOST,
 @app.route("/RNA", methods=["POST", "GET"])
 def recibir_archivo():
     if request.method == "POST":
+        test = request.values.get('test')
+
         if nombres_parametros["imagen"] not in request.files:
             redirect(request.url)
 
@@ -34,7 +37,7 @@ def recibir_archivo():
         if nombre_imagen_recibida.filename == "":
             redirect(request.url)
 
-        if evaluar_extension_archivo(nombre_imagen_recibida.filename):
+        if evaluar_extension_archivo(nombre_imagen_recibida.filename) or test is not None:
             nombre_imagen_recibida.save(nombre_guardar_archivo)
 
             data = util.preprocess_input(nombre_guardar_archivo)
@@ -44,7 +47,7 @@ def recibir_archivo():
             k = str(uuid.uuid4())
             data = util.audio_to_base64(data)
             d = {"id": k, "audio": data}
-            print("data", d)
+            # print("data", d)
             db.rpush(settings.IMAGE_QUEUE, json.dumps(d))
 
             rta = {}
@@ -56,18 +59,11 @@ def recibir_archivo():
                     db.delete(k)
                     break
                 time.sleep(settings.CLIENT_SLEEP)
-
-            # evaluacion por el modelo de RNA
-            #(predic, model_predic, _, vector, y_all), tiempo = model.predict(data)
-
-            #rta = {
-            #    "instruments_predict": predic,
-            #    "model_prediction": model_predic,
-            #    "All_instruments": y_all,
-            #    "time_predic": tiempo
-            #}
-            # return rta
+            print(rta[0].get("instruments_predict"))
             return jsonify(rta)
+        else:
+            print(test)
+            return jsonify({"error": f"la extension del archivo no es correcta, el archivo recibido fue: {nombre_imagen_recibida.filename}" })
 
     # return html
     return render_template('index.html', **locals())

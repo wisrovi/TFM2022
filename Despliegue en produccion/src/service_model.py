@@ -23,6 +23,7 @@ except Exception as e:
     logging.error("Error en conexión a redis: {}".format(e))  # muestro error en conexión a redis
     exit()  # salgo del programa
 
+
 model = Model()
 util = Util()
 

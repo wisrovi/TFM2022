@@ -3,8 +3,8 @@ services:
   app:
     build: .
     #image: wisrovi/tfm_2022:v1.1
-    volumes:
-      - ./src:/app
+    #volumes:
+    #  - ./src:/app
     container_name: TFM2022
     ports:
       - 52000:2022
