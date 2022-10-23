@@ -5,50 +5,63 @@
         <title>Audio clasification</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-        <script src="https://kit.fontawesome.com/eb496ab1a0.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="https://kit.fontawesome.com/eb496ab1a0.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+        <script type="text/javascript">
+            $("#button").click(function () {
+                console.log("click");
+                $(".transform").toggleClass("transform-active");
+            });
+        </script>
     </head>
     <body>
-        <header>
-            <p>Este es el resultado de entrenar un modelo de RandomForest para clasificacion de instrumentos musicales (usando el dataset de musinet) en un audio de 2 segundos para el TFM en la VIU en el año 2022.</p>
-        </header>
+        <main class="flex-shrink-0">
+                <div class="container-fluid">
+                    <div class="row align-items-center vh-100">
+                        <div class="col-6 mx-auto">
+                            <div class="card shadow border">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <div class="card-body">
+                                        <h5 class="card-text">
+                                            Por favor seleccione el audio a clasificar
+                                        </h5>
 
-        <div class="container">
-            <div class="row align-items-center vh-100">
-                <div class="col-6 mx-auto">
-                    <div class="card shadow border">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <div class="card-body">
-                                <h5 class="card-text">
-                                    Por favor seleccione el audio a clasificar
-                                </h5>
+                                        <form method="POST" enctype="multipart/form-data">
+                                            <!--onsubmit="showTime('Cargando datos y capacitando al modelo.')">-->
 
-                                <form method="POST" enctype="multipart/form-data">
-                                    <!--onsubmit="showTime('Cargando datos y capacitando al modelo.')">-->
+                                            <!-- File -->
+                                                <div class="row"> <label for="fname">Elija el audio de 2 segundos:</label>
+                                            </div>
 
-                                    <!-- File -->
-                                    <div class="row">
-                                        <label for="fname">Elija el audio de 2 segundos:</label>
+                                            <div class="form-row">
+                                                <input type="file" id="fname" title="Por favor elija un archivo .zip que contenga los nuevos chats" required name="file1" class="form-control-file"/>
+                                                <br><br>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <input type="submit" value="Cargar Nuevos chats " class="btn btn-primary"/>
+                                            </div>
+                                        </form>
                                     </div>
-
-                                    <div class="form-row">
-                                        <input type="file" id="fname" title="Por favor elija un archivo .zip que contenga los nuevos chats" required name="file1" class="form-control-file"/>
-                                        <br><br>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <input type="submit" value="Cargar Nuevos chats " class="btn btn-primary"/>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                </div>            
+        </main>
 
-        <!--
+        <aside>
+            <p class="h6">Este es el resultado de entrenar un modelo de RandomForest para clasificacion de instrumentos musicales (usando el dataset de musinet) en un audio de 2 segundos para el TFM en la VIU en el año 2022.</p>
+        </aside>
+
+
+        <!--       
         <div class="box transform contendor">                
             <iframe src="http://3.230.72.2:1037/" 
                 title="description" 
@@ -56,32 +69,28 @@
         </div>
 
         <div class="btn-wsp">            
-            <input type="button" id="button_float" class="btn btn-wsp" onclick="click()">  
+            <input type="button" id="button_float" class="btn btn-wsp">  
                 <i class="fa-sharp fa-solid fa-headset"></i>
             </input>            
-        </div>
+        </div>                
         -->
 
-
-        <footer> 
-            <p>Autor: William Rodriguez
-            </p>
+        <footer
+            class="page-footer font-small indigo">
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+                © 2022 Copyright: William Rodriguez
+            </div>
+            <!-- Copyright -->
         </footer>
 
+
         
-
-
-
-        <script type="text/javascript">
-            function click() {
-                $(".transform").toggleClass("transform-active");
-            };
-        </script>
         <style>
             .box {
                 background-color: transparent;
-                height: 0px;
-                width: 0px;
+                height: 0;
+                width: 0;
             }
 
             .transform {
@@ -126,32 +135,34 @@
         </style>
 
         <style>
-            
-        </style>
-
-        <style>
             footer {
                 margin: auto;
-                height: 30px;
+                height: auto;
                 background-color: #1e2127;
                 color: #ffffff;
-                text-align:center; 
+                text-align: center;
             }
-            
+
             header {
                 margin: auto;
                 height: 30px;
                 background-color: #1e2127;
                 color: #ffffff;
-                text-align:center; 
-            }​
-            
+                text-align: center;
+            }
+            ​
+            aside {
+                width: 30%;
+                padding-left: 15px;
+                margin-left: 15px;
+                float: right;
+                font-style: italic;
+                background-color: lightgray;
+            }
         </style>
-        
+
 
         <!-- Option 1: Bootstrap Bundle with Popper -->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
     </body>
 </html>
