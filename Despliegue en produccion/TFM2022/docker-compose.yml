@@ -1,0 +1,122 @@
+version: "3.3"
+services:
+  # para la sincronización de api y modelo se requiere
+  # un contenedor de app (api_rest) y otro de clasificador (service_model)
+  # estos dos deben compartir el mismo valor en la variable de entorno
+  # esto se conocera como cluster
+
+  # NOTA: entre mas cluster se tengan, mas clientes en paralelo se pueden atender
+
+  # un cluster puede tener:
+  # - 1 o más contenedores de app
+  # - unicamente 1 contenedor de clasificador
+
+  # para crear un cluster se debe:
+  # - definir un nombre para el cluster (valor de la variable de entorno CLUSTER_NAME)
+  # - crear uno o más contenedores de app con esta variable de entorno CLUSTER_NAME
+  # - crear un contenedor de clasificador con esta variable de entorno CLUSTER_NAME
+
+  # para crear mas de un cluster se debe:
+  # - repetir el proceso anterior para cada cluster
+
+  # en este ejemplo se crean 2 clusters
+  # cluster1 y cluster2
+  # cluster1 tiene 1 contenedores de app, su variable de entorno CLUSTER_NAME es cluster1
+  # cluster2 tiene 2 contenedores de app, su variable de entorno CLUSTER_NAME es cluster2
+  # ambos clusters tienen un contenedor de clasificador, su variable de entorno CLUSTER_NAME es cluster1 y cluster2 respectivamente
+
+  # todas las apps de cada cluster se debe conectar con el balanceador de carga
+  # el balanceador de carga se encarga de distribuir las peticiones entre los contenedores de app
+  # para ello se debe editar el archivo de configuración en /config_balanceo_carga/default.conf
+  # poniendo desde la linea 9 el nombre de las apps de cada cluster
+
+  # ********************************   cluster1  ********************************
+  # cluster1 app 1
+  cluster1_app:
+    build: .
+    command: python3 /app/api_rest.py
+    volumes:
+      - ./src:/app
+    ports:
+      - 52001:2022
+    environment:
+      - CLUSTER_NAME=cluster1
+
+  # cluster1 clasificador
+  cluster1_clasificador:
+    build: .
+    command: python3 /app/service_model.py
+    volumes:
+      - ./log:/log
+    #  - ./src:/app
+    environment:
+      - CLUSTER_NAME=cluster1
+
+  # ********************************   cluster2  ********************************
+  # cluster2 app 1
+  cluster2_app:
+    build: .
+    command: python3 /app/api_rest.py
+    volumes:
+      - ./src:/app
+    ports:
+      - 52002:2022
+    environment:
+      - CLUSTER_NAME=cluster2
+
+  # cluster2 app 2
+  cluster2_app2:
+    build: .
+    command: python3 /app/api_rest.py
+    volumes:
+      - ./src:/app
+    ports:
+      - 52003:2022
+    environment:
+      - CLUSTER_NAME=cluster2
+
+  # cluster2 clasificador
+  cluster2_clasificador:
+    build: .
+    command: python3 /app/service_model.py
+    volumes:
+      - ./log:/log
+    #  - ./src:/app
+    environment:
+      - CLUSTER_NAME=cluster2
+
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "52000:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./config_balanceo_carga/default.conf:/etc/nginx/conf.d/default.conf
+      - ./config_balanceo_carga/nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+    labels:
+      - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
+
+
+
+  redis:
+    image: redislabs/redismod
+    ports:
+      - "6379:6379"
+    environment:
+      - SO=docker
+    volumes:
+      - ./user_data/cache_redis:/data
+    command: --dir /data --loadmodule /usr/lib/redis/modules/redistimeseries.so
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+      - HTTP_USER=root
+      - HTTP_PASSWORD=qwerty
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis

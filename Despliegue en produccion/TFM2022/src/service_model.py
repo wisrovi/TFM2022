@@ -61,7 +61,7 @@ def organizar_json_respuesta_individual(resultSet, tiempo, instrumentos):
 def classify_process():
     while True:
         try:
-            queue = db.lrange(settings.IMAGE_QUEUE, 0,
+            queue = db.lrange(settings.NAME_QUEUE, 0,
                               settings.BATCH_SIZE - 1)  # reviso en redis la lista de peticiones
         except Exception as e:
             logging.error("Error en redis: {}".format(e))  # si hay error, lo muestro y sigo
@@ -122,7 +122,7 @@ def classify_process():
                         "Error en preparar el json de respuesta: {}".format(e))  # si hay error, lo muestro y sigo
                     continue
             try:
-                db.ltrim(settings.IMAGE_QUEUE, len(audioIDs),
+                db.ltrim(settings.NAME_QUEUE, len(audioIDs),
                          -1)  # luego de procesar la lista de peticiones borro el lote procesado
             except Exception as e:
                 logging.error(

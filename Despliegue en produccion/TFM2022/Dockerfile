@@ -19,4 +19,3 @@ RUN apt-get install libsndfile1-dev -y
 
 COPY src .
 
-CMD ["python3", "/app/api_rest.py"]

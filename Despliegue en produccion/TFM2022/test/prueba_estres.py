@@ -20,13 +20,23 @@ logging.basicConfig(
 
 # initialize the Keras REST API endpoint URL along with the input
 # image path
+
+# leer la carpeta de ejecucion
+
+
 KERAS_REST_API_URL = "http://localhost:52000/RNA"
-IMAGE_PATH = "demo/dat_85.wav"
+BASE_FOLDER = os.chdir(os.path.dirname(os.path.abspath(__file__)))
+if BASE_FOLDER is None:
+    BASE_FOLDER = os.getcwd() + os.sep 
+IMAGE_PATH = BASE_FOLDER +  "demo" + os.sep + "dat_85.wav"
+
+print("Data: ", IMAGE_PATH)
+
 
 # initialize the number of requests for the stress test along with
 # the sleep amount between requests
 NUM_REQUESTS = 1_000
-SLEEP_COUNT = 0.04
+SLEEP_COUNT = 0.08
 
 conteo_ok = 0
 conteo_bad = 0
