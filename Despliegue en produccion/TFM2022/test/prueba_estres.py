@@ -30,7 +30,7 @@ requests.adapters.DEFAULT_RETRIES = 5 # increase retries number
 # leer la carpeta de ejecucion
 
 
-KERAS_REST_API_URL = "http://localhost:52000/RNA?test=YES"
+KERAS_REST_API_URL = "http://localhost:52001/RNA?test=YES"
 BASE_FOLDER = os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if BASE_FOLDER is None:
     BASE_FOLDER = os.getcwd() + os.sep 
@@ -70,14 +70,14 @@ def call_predict_endpoint(n):
     adapter = HTTPAdapter(max_retries=retry)
     session.mount('http://', adapter)
     session.mount('https://', adapter)
-    a = session.post(KERAS_REST_API_URL, files=payload)
+    r = session.post(KERAS_REST_API_URL, files=payload)
     print(a.status_code)
 
     print("*" * 10)
 
 
     # submit the request
-    r = requests.post(KERAS_REST_API_URL, files=payload, verify=False, headers=headers, timeout=(2, 5))
+    #r = requests.post(KERAS_REST_API_URL, files=payload, verify=False, headers=headers, timeout=(2, 5))
 
     if r.status_code == 200:
         data = None

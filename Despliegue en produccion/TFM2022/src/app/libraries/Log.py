@@ -1,8 +1,12 @@
 import logging
+import os
 from time import strftime
+
+
+CLUSTER_NAME = os.environ.get('CLUSTER_NAME', 'cluster1')
 logging.basicConfig(
         format='%(asctime)s %(levelname)-8s %(message)s',
         level=logging.DEBUG,
         datefmt='%Y-%m-%d %H:%M:%S',
-        handlers=[logging.FileHandler("/log/service_model.log"),
+        handlers=[logging.FileHandler(f"/log/app_{CLUSTER_NAME}.log"),
                               logging.StreamHandler()])

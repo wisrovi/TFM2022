@@ -1,3 +1,4 @@
+import logging
 import uuid
 import time
 import json
@@ -36,6 +37,7 @@ async def create_upload_file(file1: UploadFile = File(...), test: str = None):
             with open(nombre_guardar_archivo, 'wb') as f:
                 f.write(contents)
         except Exception as e:
+            logging.error(f"Error al guardar el archivo: {e}")
             return {"message": "There was an error uploading the file"}
         finally:
             file1.file.close()
@@ -70,20 +72,6 @@ async def create_upload_file(file1: UploadFile = File(...), test: str = None):
         return rta
 
     return {"error": f"la extension del archivo no es correcta, el archivo recibido fue: {file1.filename}"}
-
-
-@app.post("/upload")
-async def upload(file: UploadFile = File(...)):
-    try:
-        contents = file.file.read()
-        with open(file.filename, 'wb') as f:
-            f.write(contents)
-    except Exception:
-        return {"message": "There was an error uploading the file"}
-    finally:
-        file.file.close()
-
-    return {"message": f"Successfully uploaded {file.filename}"}
 
 
 # para ejecutar localmente en Debug

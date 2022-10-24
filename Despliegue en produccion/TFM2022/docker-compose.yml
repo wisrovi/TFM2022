@@ -22,7 +22,7 @@ services:
   # en este ejemplo se crean 2 clusters
   # cluster1 y cluster2
   # cluster1 tiene 1 contenedores de app, su variable de entorno CLUSTER_NAME es cluster1
-  # cluster2 tiene 2 contenedores de app, su variable de entorno CLUSTER_NAME es cluster2
+  # cluster2 tiene 1 contenedores de app (pero podria tener la cantidad que se requiera), su variable de entorno CLUSTER_NAME es cluster2
   # ambos clusters tienen un contenedor de clasificador, su variable de entorno CLUSTER_NAME es cluster1 y cluster2 respectivamente
 
   # todas las apps de cada cluster se debe conectar con el balanceador de carga
@@ -36,13 +36,12 @@ services:
     build: 
       context: src/app
       dockerfile: Dockerfile
-    #command: uvicorn gunicorn gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app /app/api.py
-    #volumes:
-    #  - ./src/app:/app
     ports:
       - 52001:80
     environment:
       - CLUSTER_NAME=cluster1
+    volumes:
+      - ./log:/log
     depends_on:
       - cluster1_clasificador
 
@@ -54,38 +53,21 @@ services:
     command: python3 /app/service_model.py
     volumes:
       - ./log:/log
-    #  - ./src/clasificador:/app
     environment:
       - CLUSTER_NAME=cluster1
 
   # ********************************   cluster2  ********************************
   # cluster2 app 1
-  cluster2_app1:
+  cluster2_app:
     build: 
       context: src/app
       dockerfile: Dockerfile
-    #command: uvicorn gunicorn gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app /app/api.py
-    #volumes:
-    #  - ./src/app:/app
-    ports:
-      - 52002:80
+    #ports:
+    #  - 52002:80
     environment:
       - CLUSTER_NAME=cluster2
-    depends_on:
-      - cluster2_clasificador
-
-  # cluster2 app 2
-  cluster2_app2:
-    build: 
-      context: src/app
-      dockerfile: Dockerfile
-    #command: uvicorn gunicorn gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app /app/api.py
-    #volumes:
-    #  - ./src/app:/app
-    ports:
-      - 52003:80
-    environment:
-      - CLUSTER_NAME=cluster2
+    volumes:
+      - ./log:/log
     depends_on:
       - cluster2_clasificador
 
@@ -97,18 +79,10 @@ services:
     command: python3 /app/service_model.py
     volumes:
       - ./log:/log
-    #  - ./src/clasificador:/app
     environment:
       - CLUSTER_NAME=cluster2
 
-
-
-
-
-
-  
-
-  # balanceador de carga
+  # ********************************   balanceador de carga  ******************************** 
   nginx-proxy:
     image: jwilder/nginx-proxy
     restart: always
@@ -116,11 +90,10 @@ services:
       - "52000:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./config_balanceo_carga/default.conf:/etc/nginx/conf.d/default.conf
-      - ./config_balanceo_carga/nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
 
-
-
+  # ********************************   base de datos  ********************************
   redis:
     image: redislabs/redismod
     ports:
@@ -128,7 +101,7 @@ services:
     environment:
       - SO=docker
     volumes:
-      - ./user_data/cache_redis:/data
+      - ./cache_redis:/data
     command: --dir /data --loadmodule /usr/lib/redis/modules/redistimeseries.so
 
   redis-commander:
