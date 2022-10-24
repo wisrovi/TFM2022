@@ -4,18 +4,19 @@ FROM python:3.8-slim-buster
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-WORKDIR /app
+LABEL maintainer="William Rodriguez <wisrovi.rodriguez@gmail.com>"
 
-RUN pip3 install flask
-#RUN pip3 install ProcessAudio
-RUN pip3 install pickle-mixin
-RUN pip3 install pandas
-RUN pip3 install matplotlib
-RUN pip3 install librosa
-RUN pip3 install redis
+WORKDIR /app
 
 RUN apt-get update
 RUN apt-get install libsndfile1-dev -y
 
-COPY src .
+RUN pip3 install pickle-mixin
+RUN pip3 install pandas
+RUN pip3 install redis
+RUN pip3 install matplotlib
+RUN pip3 install librosa
+
+
+COPY . .
 
