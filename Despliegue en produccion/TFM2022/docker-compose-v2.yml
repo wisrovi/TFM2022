@@ -1,42 +1,11 @@
 version: "3.3"
 services:
-  # para la sincronización de api y modelo se requiere
-  # un contenedor de app (api_rest) y otro de clasificador (service_model)
-  # estos dos deben compartir el mismo valor en la variable de entorno
-  # esto se conocera como cluster
-
-  # NOTA: entre mas cluster se tengan, mas clientes en paralelo se pueden atender
-
-  # un cluster puede tener:
-  # - 1 o más contenedores de app
-  # - unicamente 1 contenedor de clasificador
-
-  # para crear un cluster se debe:
-  # - definir un nombre para el cluster (valor de la variable de entorno CLUSTER_NAME)
-  # - crear uno o más contenedores de app con esta variable de entorno CLUSTER_NAME
-  # - crear un contenedor de clasificador con esta variable de entorno CLUSTER_NAME
-
-  # para crear mas de un cluster se debe:
-  # - repetir el proceso anterior para cada cluster
-
-  # en este ejemplo se crean 2 clusters
-  # cluster1 y cluster2
-  # cluster1 tiene 1 contenedores de app, su variable de entorno CLUSTER_NAME es cluster1
-  # cluster2 tiene 1 contenedores de app (pero podria tener la cantidad que se requiera), su variable de entorno CLUSTER_NAME es cluster2
-  # ambos clusters tienen un contenedor de clasificador, su variable de entorno CLUSTER_NAME es cluster1 y cluster2 respectivamente
-
-  # todas las apps de cada cluster se debe conectar con el balanceador de carga
-  # el balanceador de carga se encarga de distribuir las peticiones entre los contenedores de app
-  # para ello se debe editar el archivo de configuración en /config_balanceo_carga/default.conf
-  # poniendo desde la linea 9 el nombre de las apps de cada cluster
 
   # ********************************   cluster1  ********************************
   # cluster1 app 1
   cluster1_app:
     #image: wisrovi/tfm_2022:v2-app-dev
     image: wisrovi/tfm_2022:v2-app-prod
-    ports:
-      - 12345:80
     environment:
       - CLUSTER_NAME=cluster1
     volumes:
@@ -51,6 +20,19 @@ services:
       - ./log:/log
     environment:
       - CLUSTER_NAME=cluster1
+
+  # ********************************   https  ********************************
+  nginx_https:
+    image: nginx:latest
+    links:
+      - cluster1_app
+    volumes:
+        - ./nginx/https/:/etc/nginx/conf.d/
+        - ./nginx/https/ssl/:/etc/ssl/certs
+    ports:
+      - "10111:443"
+
+    restart: always
 
 
   redis:
