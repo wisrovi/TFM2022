@@ -16,7 +16,7 @@ RUN pip3 install pandas
 RUN pip3 install matplotlib
 RUN pip3 install librosa
 RUN pip3 install redis
-RUN pip3 install fastapi
+RUN pip3 install flask
 RUN pip3 install uvicorn
 RUN pip3 install gunicorn
 RUN pip3 install python-multipart

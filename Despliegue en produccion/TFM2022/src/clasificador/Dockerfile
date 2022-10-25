@@ -20,3 +20,5 @@ RUN pip3 install librosa
 
 COPY . .
 
+
+CMD ["python3", "/app/service_model.py"]
