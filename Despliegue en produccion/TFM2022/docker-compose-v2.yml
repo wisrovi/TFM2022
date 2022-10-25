@@ -10,6 +10,8 @@ services:
       - CLUSTER_NAME=cluster1
     volumes:
       - ./log:/log
+    ports:
+      - "10110:80"
     depends_on:
       - cluster1_clasificador
 
@@ -20,6 +22,8 @@ services:
       - ./log:/log
     environment:
       - CLUSTER_NAME=cluster1
+    depends_on:
+      - redis
 
   # ********************************   https  ********************************
   nginx_https:
