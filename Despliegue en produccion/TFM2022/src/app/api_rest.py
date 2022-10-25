@@ -19,6 +19,7 @@ nombres_parametros = {
 
 nombre_guardar_archivo = "tmp/recibido.wav"
 
+
 app = Flask(__name__)
 db = redis.StrictRedis(host=settings.REDIS_HOST,
                        port=settings.REDIS_PORT,

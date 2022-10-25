@@ -35,9 +35,10 @@ services:
   cluster1_app:
     build: 
       context: src/app
-      dockerfile: Dockerfile
+      #dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     ports:
-      - 52001:80
+      - 10110:80
     environment:
       - CLUSTER_NAME=cluster1
     volumes:
@@ -56,48 +57,42 @@ services:
     environment:
       - CLUSTER_NAME=cluster1
 
-  # ********************************   cluster2  ********************************
-  # cluster2 app 1
-  cluster2_app:
-    build: 
-      context: src/app
-      dockerfile: Dockerfile
-    #ports:
-    #  - 52002:80
-    environment:
-      - CLUSTER_NAME=cluster2
-    volumes:
-      - ./log:/log
-    depends_on:
-      - cluster2_clasificador
 
-  # cluster2 clasificador
-  cluster2_clasificador:
-    build:
-      context: src/clasificador
-      dockerfile: Dockerfile
-    command: python3 /app/service_model.py
-    volumes:
-      - ./log:/log
-    environment:
-      - CLUSTER_NAME=cluster2
 
   # ********************************   balanceador de carga  ******************************** 
-  nginx-proxy:
+  nginx_balanceo_carga:
     image: jwilder/nginx-proxy
     restart: always
-    ports:
-      - "52000:80"
+    #ports:
+    #  - "52000:80"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./nginx/nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+      - ./nginx/balanceo_carga/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/balanceo_carga/nginx-custom.conf:/etc/nginx/conf.d/custom.conf:ro
+
+
+
+  # ********************************   https  ********************************
+  nginx_https:
+    image: nginx:latest
+    links:
+      - cluster1_app
+    volumes:
+        - ./nginx/https/:/etc/nginx/conf.d/
+        - ./nginx/https/ssl/:/etc/ssl/certs
+    #ports:
+    #  - "10110:443"
+
+    restart: always
+
+
+
 
   # ********************************   base de datos  ********************************
   redis:
     image: redislabs/redismod
-    ports:
-      - "6379:6379"
+    #ports:
+    #  - "6379:6379"
     environment:
       - SO=docker
     volumes:
@@ -110,7 +105,7 @@ services:
       - REDIS_HOSTS=local:redis:6379
       - HTTP_USER=root
       - HTTP_PASSWORD=qwerty
-    ports:
-      - "8081:8081"
+    #ports:
+    #  - "8081:8081"
     depends_on:
       - redis
