@@ -30,7 +30,9 @@ requests.adapters.DEFAULT_RETRIES = 5 # increase retries number
 # leer la carpeta de ejecucion
 
 
-KERAS_REST_API_URL = "http://localhost:52001/RNA?test=YES"
+KERAS_REST_API_URL = "http://localhost:10110/RNA?test=YES"
+#KERAS_REST_API_URL = "https://localhost:10111/RNA?test=YES"
+
 BASE_FOLDER = os.chdir(os.path.dirname(os.path.abspath(__file__)))
 if BASE_FOLDER is None:
     BASE_FOLDER = os.getcwd() + os.sep 
@@ -39,10 +41,7 @@ IMAGE_PATH = BASE_FOLDER +  "demo" + os.sep + "dat_85.wav"
 print("Data: ", IMAGE_PATH)
 print("Keras REST API URL: ", KERAS_REST_API_URL)
 
-headers={
-'Referer': 'https://itunes.apple.com',
-'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
-}
+
 
 
 
@@ -65,19 +64,23 @@ def call_predict_endpoint(n):
     image = open(IMAGE_PATH, "rb").read()
     payload = {"file1": image}
 
-    session = requests.Session()
+    """session = requests.Session()
     retry = Retry(connect=3, backoff_factor=1)
     adapter = HTTPAdapter(max_retries=retry)
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     r = session.post(KERAS_REST_API_URL, files=payload)
-    print(a.status_code)
+    print(r.status_code)
 
     print("*" * 10)
-
+    """
 
     # submit the request
-    #r = requests.post(KERAS_REST_API_URL, files=payload, verify=False, headers=headers, timeout=(2, 5))
+    headers={
+        'Referer': 'https://itunes.apple.com',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
+    }
+    r = requests.post(KERAS_REST_API_URL, files=payload, verify=False)  #, headers=headers, timeout=(2, 5))
 
     if r.status_code == 200:
         data = None
