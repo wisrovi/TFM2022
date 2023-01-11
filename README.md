@@ -82,7 +82,7 @@ year = {2022}
 
 ## Versionado 📌
 
-Usamos [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/wisrovi/TFM2022/releases).
+Se usó [SemVer](http://semver.org/) para el versionado. Para todas las versiones disponibles, mira los [tags en este repositorio](https://github.com/wisrovi/TFM2022/releases).
 
 
 ---
