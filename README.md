@@ -51,33 +51,18 @@ Este proyecto está bajo la Licencia (MIT) - mira el archivo [LICENSE.md](LICENS
 
 ---
 
-## Autores ✒️
-
-* **William Rodriguez** - *Trabajo Inicial* - [wisrovi](https://github.com/wisrovi)
-
 ---
 
-# Citing
+## 👤 Autor & Afiliación Oficial
 
-
-If you want to cite ProcessAudio in an academic paper, there are two ways to do it.
-
-- APA:
-
-    WISROVI, W.S.R.V. (2022). Python with code for TFM 2022 (Version 1.1.0) [Computer Software]. https://github.com/wisrovi/TFM2022
-
-- BibTex:
-
-    @software{WISROVI_Instrument_Classifier_2022,
-author = {WISROVI, William Steve Rodríguez Villamizar},
-month = {10},
-title = {{Python with code for TFM 2022}},
-URL = {https://github.com/wisrovi/TFM2022},
-version = {1.1.0},
-year = {2022}
-}
-
----
+* **William Steve Rodriguez Villamizar (Wisrovi)**
+* **Cargo:** Principal AI Engineer & Applied AI Solutions Architect | Scientific Researcher
+* 📧 **Email:** [wisrovi.rodriguez@gmail.com](mailto:wisrovi.rodriguez@gmail.com) / [wisrovi@wisrovi.dev](mailto:wisrovi@wisrovi.dev)
+* 🌐 **Portal Oficial:** [wisrovi.dev](https://wisrovi.dev)
+* 💼 **LinkedIn:** [wisrovi-rodriguez](https://www.linkedin.com/in/wisrovi-rodriguez/)
+* 🆔 **ORCID:** [0009-0005-0710-1861](https://orcid.org/0009-0005-0710-1861)
+* 📦 **PyPI:** [pypi.org/user/wisrovi/](https://pypi.org/user/wisrovi/)
+* 🐙 **GitHub:** [@wisrovi](https://github.com/wisrovi)
 
 
 ## Versionado 📌
